@@ -1,4 +1,4 @@
-# 💭 Reflexión Personal sobre el Análisis y Modelado del Proyecto "Halcón"
+# Reflexión Personal sobre el Análisis y Modelado del Proyecto "Halcón"
 
 **Estudiante:** Maximus Cristian Hernandez Garcia  
 **Proyecto:** Sistema de Gestión y Rastreo de Pedidos - Distribuidora Halcón  
