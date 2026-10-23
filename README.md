@@ -27,6 +27,37 @@ A continuación se presenta el modelo relacional implementado en la base de dato
 
 ---
 
+## Documentación de la API (Evidencia 2)
+
+### Endpoints Implementados
+
+| Método | Endpoint | Controlador / Acción | Descripción |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/users` | `UserController@index` | Listado paginado de usuarios |
+| `POST` | `/api/users` | `UserController@store` | Registro de usuario con validación y asignación de rol |
+| `GET` | `/api/users/{id}` | `UserController@show` | Consulta de usuario por ID con relación de rol |
+| `PUT` | `/api/users/{id}` | `UserController@update` | Actualización de datos de usuario |
+| `DELETE` | `/api/users/{id}` | `UserController@destroy` | Eliminación de usuario |
+| `GET` | `/api/orders` | `OrderController@index` | Listado general de órdenes paginado |
+| `POST` | `/api/orders` | `OrderController@store` | Creación de orden asociada a cliente y usuario |
+| `GET` | `/api/orders/{id}` | `OrderController@show` | Consulta de orden por ID cargando relaciones (`customer`, `user`) |
+| `GET` | `/api/orders/invoice/{invoice}` | `OrderController@searchByInvoice` | Búsqueda directa por folio de factura |
+| `PUT` | `/api/orders/{id}` | `OrderController@update` | Modificación de estatus (`In route`, etc.) y datos de entrega |
+| `DELETE` | `/api/orders/{id}` | `OrderController@destroy` | Borrado lógico (*soft delete*) de la orden |
+| `GET` | `/api/orders/archived` | `OrderController@archived` | Consulta del histórico de órdenes archivadas |
+
+### Flujo de Pruebas en Postman
+1. **POST `/api/users`:** Registro de operador (`Operador Entrega`), asignándole `role_id: 1` y obteniendo el `id: 5`[cite: 7].
+2. **POST `/api/orders`:** Creación de orden asignada al nuevo usuario (`user_id: 5`), con folio `"99901"`, estatus `"Ordered"` y generación del `id: 51`[cite: 10, 12].
+3. **GET `/api/orders/51`:** Consulta individual verificando persistencia y relaciones con cliente y operador[cite: 13].
+4. **GET `/api/orders/invoice/99901`:** Búsqueda y validación por folio de factura[cite: 10].
+5. **PUT `/api/orders/51`:** Actualización de estatus a `"In route"` y cambio de dirección de entrega[cite: 14].
+6. **GET `/api/orders/51`:** Verificación de cambios reflejados en base de datos[cite: 15].
+7. **DELETE `/api/orders/51`:** Ejecución de borrado lógico (*soft delete*) mediante Eloquent[cite: 16].
+8. **GET `/api/orders/archived`:** Comprobación de la orden `51` archivada con marca temporal en `deleted_at`[cite: 18].
+
+---
+
 ## Flujo de Trabajo en Git (GitFlow)
 * `main`: Rama de producción con versiones estables.
 * `develop`: Rama de integración principal.

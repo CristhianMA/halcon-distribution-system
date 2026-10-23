@@ -17,8 +17,22 @@ class Order extends Model
         'status',
         'delivery_address',
         'notes',
-        'load_photo_path',
-        'delivery_photo_path',
-        'is_deleted'
+        'loaded_unit_photo',
+        'delivery_receipt_photo',
     ];
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function details()
+    {
+        return $this->hasMany(OrderDetail::class);
+    }
 }
