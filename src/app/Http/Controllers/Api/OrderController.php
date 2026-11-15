@@ -109,4 +109,35 @@ class OrderController extends Controller
 
         return response()->json($archivedOrders, 200);
     }
+
+    /**
+     * Rastrear orden por Customer Number (ID o código CLI-XXXX) e Invoice Number.
+     */
+    public function trackOrder(Request $request)
+    {
+        $request->validate([
+            'customer_number' => 'required',
+            'invoice_number'  => 'required',
+        ]);
+
+        $customerInput = trim($request->customer_number);
+
+        $order = Order::with(['customer', 'user'])
+            ->where('invoice_number', trim($request->invoice_number))
+            ->where(function ($query) use ($customerInput) {
+                $query->where('customer_id', $customerInput)
+                      ->orWhereHas('customer', function ($q) use ($customerInput) {
+                          $q->where('customer_number', $customerInput);
+                      });
+            })
+            ->first();
+
+        if (!$order) {
+            return response()->json([
+                'message' => 'No order found with that Customer Number and Invoice Number.'
+            ], 404);
+        }
+
+        return response()->json($order, 200);
+    }
 }

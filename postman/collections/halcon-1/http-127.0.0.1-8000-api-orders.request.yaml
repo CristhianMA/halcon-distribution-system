@@ -1,0 +1,25 @@
+$kind: http-request
+name: http://127.0.0.1:8000/api/orders
+description: ""
+url: http://127.0.0.1:8000/api/orders
+method: POST
+headers:
+  Accept: application/json
+body:
+  type: json
+  content: "{\r
+
+    \  \"invoice_number\": \"99903\",\r
+
+    \  \"customer_id\": 1,\r
+
+    \  \"user_id\": 7,\r
+
+    \  \"status\": \"Ordered\",\r
+
+    \  \"delivery_address\": \"Av. Central 456, Parque Industrial\",\r
+
+    \  \"notes\": \"Entregar en puerta 2\"\r
+
+    }"
+order: 1000
