@@ -58,6 +58,25 @@ A continuación se presenta el modelo relacional implementado en la base de dato
 
 ---
 
+## Autenticación de Empleados y Control por Roles (Actividad 13)
+
+El registro público (`/register`) se encuentra deshabilitado (`404 Not Found`) para impedir el alta de usuarios externos. El acceso al portal administrativo es exclusivo para personal registrado mediante `/login`.
+
+### Credenciales de Prueba (`php artisan migrate --seed`)
+
+| Rol | Nombre | Correo Corporativo | Contraseña |
+| :--- | :--- | :--- | :--- |
+| **Admin** | Carlos Administrador | `admin@halcon.com` | `password123` |
+| **Ruta** | Route | `ruta@halcon.com` | `password123` |
+
+### Rutas Web Protegidas
+
+| Método | Ruta | Middleware | Descripción |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/` | Público | Pantalla de rastreo de órdenes para clientes |
+| `GET` | `/login` | `guest` | Formulario de inicio de sesión para empleados |
+| `GET` | `/dashboard` | `auth` | Panel administrativo dinámico según el rol asignado |
+| `GET` | `/admin/users` | `auth`, `role:Admin` | Gestión completa (CRUD) de empleados y asignación de roles |
 ## Flujo de Trabajo en Git (GitFlow)
 * `main`: Rama de producción con versiones estables.
 * `develop`: Rama de integración principal.
