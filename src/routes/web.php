@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\OrderManagementController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
@@ -38,24 +39,44 @@ Route::middleware('auth')->group(function () {
             Route::patch('/users/{user}/toggle-status', [UserController::class, 'toggleStatus'])->name('users.toggle-status');
         });
 
-        // Role-Specific Operational Modules
-        Route::get('/modules/sales', [DashboardController::class, 'module'])
-            ->defaults('module', 'sales')
-            ->middleware('role:Sales,Ventas,Admin,Administrator')
-            ->name('modules.sales');
+    // Order Management Module (Activity 14)
+    Route::prefix('orders')->name('admin.orders.')->group(function () {
+        // Lista de pedidos activos y búsqueda/filtros
+        Route::get('/', [OrderManagementController::class, 'index'])->name('index');
 
-        Route::get('/modules/purchasing', [DashboardController::class, 'module'])
-            ->defaults('module', 'purchasing')
-            ->middleware('role:Purchasing,Compras,Admin,Administrator')
-            ->name('modules.purchasing');
+        // Solo Admin y Ventas pueden crear, ver eliminados, editar eliminados, restaurar y borrar
+        Route::middleware('role:Admin,Administrator,Sales,Ventas')->group(function () {
+            Route::get('/create', [OrderManagementController::class, 'create'])->name('create');
+            Route::post('/', [OrderManagementController::class, 'store'])->name('store');
+            Route::get('/deleted', [OrderManagementController::class, 'trashed'])->name('deleted');
+            Route::put('/{id}/update-trashed', [OrderManagementController::class, 'updateTrashed'])->name('update-trashed');
+            Route::patch('/{id}/restore', [OrderManagementController::class, 'restore'])->name('restore');
+            Route::delete('/{id}', [OrderManagementController::class, 'destroy'])->name('destroy');
+        });
 
-        Route::get('/modules/warehouse', [DashboardController::class, 'module'])
-            ->defaults('module', 'warehouse')
-            ->middleware('role:Warehouse,Almacén,Almacen,Admin,Administrator')
-            ->name('modules.warehouse');
+        // Detalle y edición según permisos del rol logueado
+        Route::get('/{id}', [OrderManagementController::class, 'show'])->name('show');
+        Route::put('/{id}', [OrderManagementController::class, 'update'])->name('update');
+    });
 
-        Route::get('/modules/route', [DashboardController::class, 'module'])
-            ->defaults('module', 'route')
-            ->middleware('role:Route,Ruta,Admin,Administrator')
-            ->name('modules.route');
+    // Role-Specific Operational Modules
+    Route::get('/modules/sales', [DashboardController::class, 'module'])
+        ->defaults('module', 'sales')
+        ->middleware('role:Sales,Ventas,Admin,Administrator')
+        ->name('modules.sales');
+
+    Route::get('/modules/purchasing', [DashboardController::class, 'module'])
+        ->defaults('module', 'purchasing')
+        ->middleware('role:Purchasing,Compras,Admin,Administrator')
+        ->name('modules.purchasing');
+
+    Route::get('/modules/warehouse', [DashboardController::class, 'module'])
+        ->defaults('module', 'warehouse')
+        ->middleware('role:Warehouse,Almacén,Almacen,Admin,Administrator')
+        ->name('modules.warehouse');
+
+    Route::get('/modules/route', [DashboardController::class, 'module'])
+        ->defaults('module', 'route')
+        ->middleware('role:Route,Ruta,Admin,Administrator')
+        ->name('modules.route');
 });

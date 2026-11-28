@@ -50,7 +50,7 @@
                     <span class="badge bg-success mb-2">Sales</span>
                     <h5 class="card-title">Customer Orders</h5>
                     <p class="card-text text-muted small">Create and manage customer orders and monitor invoice statuses.</p>
-                    <a href="{{ route('modules.sales') }}" class="btn btn-outline-success btn-sm">Open Sales Module</a>
+                    <a href="{{ route('admin.orders.index') }}" class="btn btn-outline-success btn-sm">Open Sales Module</a>
                 </div>
             </div>
         </div>
@@ -63,7 +63,10 @@
                     <span class="badge bg-warning text-dark mb-2">Purchasing</span>
                     <h5 class="card-title">Missing Materials Support</h5>
                     <p class="card-text text-muted small">Support orders requiring procurement of missing materials.</p>
-                    <a href="{{ route('modules.purchasing') }}" class="btn btn-outline-warning text-dark btn-sm">Open Purchasing Module</a>
+                    <div class="d-flex gap-2">
+                        <a href="{{ route('modules.purchasing') }}" class="btn btn-outline-warning text-dark btn-sm">Open Purchasing Module</a>
+                        <a href="{{ route('admin.orders.index') }}" class="btn btn-outline-secondary btn-sm">Orders</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -76,7 +79,10 @@
                     <span class="badge bg-info text-dark mb-2">Warehouse</span>
                     <h5 class="card-title">Order Preparation</h5>
                     <p class="card-text text-muted small">Process and prepare customer orders for dispatch.</p>
-                    <a href="{{ route('modules.warehouse') }}" class="btn btn-outline-info text-dark btn-sm">Open Warehouse Module</a>
+                    <div class="d-flex gap-2">
+                        <a href="{{ route('modules.warehouse') }}" class="btn btn-outline-info text-dark btn-sm">Open Warehouse Module</a>
+                        <a href="{{ route('admin.orders.index') }}" class="btn btn-outline-secondary btn-sm">Orders</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -89,7 +95,10 @@
                     <span class="badge bg-secondary mb-2">Route</span>
                     <h5 class="card-title">Routed Orders & Delivery</h5>
                     <p class="card-text text-muted small">Manage routed orders and upload delivery evidence.</p>
-                    <a href="{{ route('modules.route') }}" class="btn btn-outline-secondary btn-sm">Open Route Module</a>
+                    <div class="d-flex gap-2">
+                        <a href="{{ route('modules.route') }}" class="btn btn-outline-secondary btn-sm">Open Route Module</a>
+                        <a href="{{ route('admin.orders.index') }}" class="btn btn-outline-dark btn-sm">Orders</a>
+                    </div>
                 </div>
             </div>
         </div>
