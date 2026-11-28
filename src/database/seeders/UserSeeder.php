@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
@@ -18,12 +19,14 @@ class UserSeeder extends Seeder
         $warehouseRole = Role::firstOrCreate(['name' => 'Warehouse']);
         $routeRole = Role::firstOrCreate(['name' => 'Route']);
 
+        $defaultPassword = Hash::make(env('DEFAULT_USER_PASSWORD', Str::random(16)));
+
         // 2. Usuarios base de empleados (si no existen)
         User::firstOrCreate(
             ['email' => 'admin@halcon.com'],
             [
                 'name' => 'Carlos Administrador',
-                'password' => Hash::make('password123'),
+                'password' => $defaultPassword,
                 'role_id' => $adminRole->id,
                 'is_active' => true,
             ]
@@ -33,7 +36,7 @@ class UserSeeder extends Seeder
             ['email' => 'ventas@halcon.com'],
             [
                 'name' => 'Laura Ventas',
-                'password' => Hash::make('password123'),
+                'password' => $defaultPassword,
                 'role_id' => $salesRole->id,
                 'is_active' => true,
             ]
@@ -43,7 +46,7 @@ class UserSeeder extends Seeder
             ['email' => 'almacen@halcon.com'],
             [
                 'name' => 'Roberto Almacen',
-                'password' => Hash::make('password123'),
+                'password' => $defaultPassword,
                 'role_id' => $warehouseRole->id,
                 'is_active' => true,
             ]
